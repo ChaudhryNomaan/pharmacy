@@ -12,6 +12,12 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Install Dependencies and Build Web
+        run: |
+          npm install
+          npm run build
+          npx cap copy android
+
       - name: Build with Gradle
         run: |
           cd android
