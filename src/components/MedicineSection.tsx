@@ -17,7 +17,7 @@ export default function MedicineSection() {
     Object.fromEntries(MEDICINES.map(m => [m.id, 1]))
   );
 
-  const pharmacyPhone = "+923121572571"; 
+  const pharmacyPhone = "923121572571";
 
   const updateQty = (id: number, delta: number) => {
     setQuantities(prev => ({
@@ -30,7 +30,7 @@ export default function MedicineSection() {
     const qty = quantities[med.id];
     const message = `Hello! 👋\n\nI'd like to order:\n📦 *Item:* ${med.name}\n🧪 *Strength:* ${med.strength}\n🔢 *Quantity:* ${qty}\n💰 *Approx. Total:* $${(med.price * qty).toFixed(2)}\n\nPlease let me know when I can collect this!`;
     const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/${pharmacyPhone}?text=${encodedMessage}`, '_blank');
+    window.open(`https://wa.me/${pharmacyPhone}?text=${encodedMessage}`, '_blank', 'noopener,noreferrer');
   };
 
   const filteredMeds = MEDICINES.filter(med => 
@@ -90,15 +90,19 @@ export default function MedicineSection() {
               {/* Quantity Selector */}
               <div className="flex items-center gap-4 mb-8 bg-white w-fit p-1 rounded-2xl border border-slate-100">
                 <button 
+                  type="button"
                   onClick={() => updateQty(med.id, -1)}
                   className="p-2 hover:bg-slate-50 rounded-xl transition-colors text-slate-400 hover:text-emerald-600"
+                  aria-label="Decrease quantity"
                 >
                   <Minus size={18} />
                 </button>
                 <span className="w-8 text-center font-black text-slate-800">{quantities[med.id]}</span>
                 <button 
+                  type="button"
                   onClick={() => updateQty(med.id, 1)}
                   className="p-2 hover:bg-slate-50 rounded-xl transition-colors text-slate-400 hover:text-emerald-600"
+                  aria-label="Increase quantity"
                 >
                   <Plus size={18} />
                 </button>
@@ -110,6 +114,7 @@ export default function MedicineSection() {
                   <span className="text-2xl font-black text-emerald-900">${med.price.toFixed(2)}</span>
                 </div>
                 <button 
+                  type="button"
                   onClick={() => sendWhatsAppOrder(med)}
                   className="flex items-center gap-2 bg-emerald-500 text-white px-6 py-4 rounded-2xl font-black hover:bg-emerald-600 active:scale-95 transition-all shadow-xl shadow-emerald-200"
                 >
@@ -128,7 +133,8 @@ export default function MedicineSection() {
             <p className="text-slate-500 font-black text-xl">Medicine not in catalog?</p>
             <p className="text-slate-400 font-medium mb-8 text-sm">We likely have it in stock. Just ask our pharmacist!</p>
             <button 
-              onClick={() => window.open(`https://wa.me/${pharmacyPhone}?text=Hi! I am looking for a medicine not in your online list...`, '_blank')}
+              type="button"
+              onClick={() => window.open(`https://wa.me/${pharmacyPhone}?text=${encodeURIComponent('Hi! I am looking for a medicine not in your online list...')}`, '_blank', 'noopener,noreferrer')}
               className="bg-emerald-600 text-white px-8 py-4 rounded-2xl font-black hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200"
             >
               Inquire via WhatsApp

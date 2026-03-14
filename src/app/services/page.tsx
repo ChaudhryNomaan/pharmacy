@@ -9,13 +9,21 @@ import {
 } from 'lucide-react';
 
 // --- Sub-component: ServiceCard ---
-const ServiceCard = ({ title, description, icon, link, ctaText }: any) => (
+interface ServiceCardProps {
+  title: string;
+  description: string;
+  icon: React.ReactElement;
+  link: string;
+  ctaText: string;
+}
+
+const ServiceCard = ({ title, description, icon, link, ctaText }: ServiceCardProps) => (
   <div className="group bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-emerald-900/5 hover:-translate-y-2 transition-all duration-500 flex flex-col h-full relative overflow-hidden">
     {/* Decorative background shape changed to Emerald */}
     <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-50/50 rounded-bl-[3rem] -z-10 group-hover:bg-emerald-600 transition-colors duration-500"></div>
     
     <div className="bg-emerald-50 w-16 h-16 rounded-2xl flex items-center justify-center text-emerald-600 mb-8 group-hover:bg-white group-hover:scale-110 transition-all duration-500 shadow-sm">
-      {React.cloneElement(icon, { size: 32, strokeWidth: 2.5 })}
+      {React.cloneElement(icon as React.ReactElement<{ size?: number; strokeWidth?: number }>, { size: 32, strokeWidth: 2.5 })}
     </div>
     
     <h3 className="text-2xl font-black text-slate-900 mb-4 tracking-tighter leading-tight">
@@ -137,7 +145,13 @@ export default function ServicesPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {filteredServices.map((service, index) => (
               <div key={index}>
-                <ServiceCard {...service} ctaText={service.cta} description={service.desc} />
+                <ServiceCard
+                  title={service.title}
+                  description={service.desc}
+                  icon={service.icon}
+                  link={service.link}
+                  ctaText={service.cta}
+                />
               </div>
             ))}
           </div>
@@ -189,7 +203,7 @@ export default function ServicesPage() {
             ].map((item, i) => (
                 <div key={i} className="group text-left">
                     <div className="text-emerald-600 mb-6 group-hover:scale-110 group-hover:rotate-6 transition-transform inline-block">
-                      {React.cloneElement(item.icon, { size: 40, strokeWidth: 1.5 })}
+                      {React.cloneElement(item.icon as React.ReactElement<{ size?: number; strokeWidth?: number }>, { size: 40, strokeWidth: 1.5 })}
                     </div>
                     <h4 className="text-2xl font-black text-slate-900 mb-4 tracking-tighter uppercase text-sm">{item.title}</h4>
                     <p className="text-slate-500 font-medium leading-relaxed">{item.text}</p>

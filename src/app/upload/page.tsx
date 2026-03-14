@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, ChangeEvent, FormEvent } from 'react';
+import React, { useState, useRef, ChangeEvent, FormEvent, useEffect } from 'react';
 import { 
   Upload, FileText, CheckCircle2, ShieldCheck, 
   Phone, User, ArrowLeft, X, ImageIcon, Loader2 
@@ -16,8 +16,15 @@ export default function UploadPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
 
-  // YOUR WHATSAPP NUMBER (Use international format without + or spaces)
-  const MY_WHATSAPP_NUMBER = "+92 312 1572571"; 
+  // YOUR WHATSAPP NUMBER (International format without + or spaces)
+  const MY_WHATSAPP_NUMBER = "923121572571";
+
+  // Cleanup preview URL to avoid memory leaks
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
 
   const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value.replace(/\D/g, '');
@@ -37,6 +44,7 @@ export default function UploadPage() {
   };
 
   const processFile = (selectedFile: File) => {
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
     setFile(selectedFile);
     if (selectedFile.type.startsWith('image/')) {
       const url = URL.createObjectURL(selectedFile);
@@ -48,6 +56,7 @@ export default function UploadPage() {
 
   const removeFile = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
     setFile(null);
     setPreviewUrl(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
@@ -79,6 +88,8 @@ export default function UploadPage() {
 
     setIsUploading(false);
     setSubmitted(true);
+    // Don't clear file immediately so user sees what they sent if needed,
+    // but in this flow we clear it for a fresh state.
     setFile(null);
     setPreviewUrl(null);
   };

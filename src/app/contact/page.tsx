@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { Phone, MapPin, Clock, Send, Upload, CheckCircle, ShieldCheck, FileText, X, MessageCircle } from 'lucide-react';
+import { Phone, MapPin, Clock, Upload, CheckCircle, ShieldCheck, FileText, X, MessageCircle } from 'lucide-react';
 
 interface FormData {
   name: string;
@@ -22,7 +22,7 @@ export default function ContactPage() {
   });
 
   // ENTER YOUR NUMBER HERE (International format, no + or spaces)
-  const MY_WHATSAPP_NUMBER = "+92 312 1572571"; 
+  const MY_WHATSAPP_NUMBER = "923121572571";
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -30,18 +30,17 @@ export default function ContactPage() {
     // Construct the message text
     const fileNote = formData.file ? `(File attached: ${formData.file.name})` : '';
     const text = `*New Pharmacy Inquiry*%0A` +
-                 `*Name:* ${formData.name}%0A` +
-                 `*Subject:* ${formData.subject}%0A` +
-                 `*Email:* ${formData.email}%0A` +
-                 `*Message:* ${formData.message}%0A` +
-                 `${fileNote}`;
+                 `*Name:* ${encodeURIComponent(formData.name)}%0A` +
+                 `*Subject:* ${encodeURIComponent(formData.subject)}%0A` +
+                 `*Email:* ${encodeURIComponent(formData.email)}%0A` +
+                 `*Message:* ${encodeURIComponent(formData.message)}%0A` +
+                 `${encodeURIComponent(fileNote)}`;
 
     const whatsappUrl = `https://wa.me/${MY_WHATSAPP_NUMBER}?text=${text}`;
     
     // Open WhatsApp in a new tab
     window.open(whatsappUrl, '_blank');
 
-    console.log("Form Data Submitted:", formData);
     setIsSubmitted(true);
   };
 
@@ -65,9 +64,10 @@ export default function ContactPage() {
           </div>
           <h2 className="text-3xl font-black text-slate-900 mb-4 tracking-tighter">Redirecting...</h2>
           <p className="text-slate-500 mb-8 font-medium">
-            Thank you, {formData.name.split(' ')[0]}. We are opening WhatsApp so you can chat with our clinical team.
+            Thank you, {formData.name ? formData.name.split(' ')[0] : 'Patient'}. We are opening WhatsApp so you can chat with our clinical team.
           </p>
           <button 
+            type="button"
             onClick={() => setIsSubmitted(false)}
             className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-2xl transition-all active:scale-95 shadow-xl shadow-emerald-100"
           >
@@ -103,7 +103,7 @@ export default function ContactPage() {
               <h2 className="text-2xl font-black text-slate-900 mb-8 tracking-tight">Direct Access</h2>
               
               <div className="space-y-8">
-                <a href={`https://wa.me/${MY_WHATSAPP_NUMBER}`} target="_blank" className="flex items-center gap-6 group">
+                <a href={`https://wa.me/${MY_WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-6 group">
                   <div className="bg-emerald-50 p-4 rounded-2xl text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
                     <MessageCircle size={24} />
                   </div>
@@ -142,10 +142,15 @@ export default function ContactPage() {
             {/* Map Placeholder */}
             <div className="h-64 bg-slate-200 rounded-[2.5rem] shadow-inner relative flex items-center justify-center overflow-hidden border border-slate-100 group">
                 <div className="absolute inset-0 opacity-60 bg-[url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&q=80&w=1000')] bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-700"></div>
-                <div className="relative z-10 bg-white shadow-xl px-6 py-3 rounded-2xl flex items-center gap-3 cursor-pointer">
+                <a
+                  href="https://maps.google.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative z-10 bg-white shadow-xl px-6 py-3 rounded-2xl flex items-center gap-3 cursor-pointer"
+                >
                   <MapPin className="text-red-500 animate-bounce" size={20} />
                   <span className="text-sm font-black text-slate-900 uppercase tracking-tight">Open in Google Maps</span>
-                </div>
+                </a>
             </div>
           </div>
 
@@ -156,18 +161,20 @@ export default function ContactPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
+                  <label htmlFor="name" className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
                   <input 
-                    name="name" required 
+                    id="name"
+                    name="name" required
                     onChange={handleInputChange}
                     type="text" placeholder="John Doe" 
                     className="w-full p-4 rounded-2xl border border-slate-100 bg-slate-50 focus:bg-white focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none font-bold shadow-inner focus:shadow-none" 
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
+                  <label htmlFor="email" className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
                   <input 
-                    name="email" required 
+                    id="email"
+                    name="email" required
                     onChange={handleInputChange}
                     type="email" placeholder="john@example.com" 
                     className="w-full p-4 rounded-2xl border border-slate-100 bg-slate-50 focus:bg-white focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none font-bold shadow-inner focus:shadow-none" 
@@ -176,17 +183,20 @@ export default function ContactPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Inquiry Subject</label>
-                <select 
-                  name="subject"
-                  onChange={handleInputChange}
-                  className="w-full p-4 rounded-2xl border border-slate-100 bg-slate-50 focus:bg-white focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none font-bold text-slate-700 shadow-inner focus:shadow-none appearance-none"
-                >
-                  <option>Prescription Inquiry</option>
-                  <option>Insurance Question</option>
-                  <option>Vaccination Appointment</option>
-                  <option>Other</option>
-                </select>
+                <label htmlFor="subject" className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Inquiry Subject</label>
+                <div className="relative">
+                  <select
+                    id="subject"
+                    name="subject"
+                    onChange={handleInputChange}
+                    className="w-full p-4 rounded-2xl border border-slate-100 bg-slate-50 focus:bg-white focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none font-bold text-slate-700 shadow-inner focus:shadow-none appearance-none"
+                  >
+                    <option>Prescription Inquiry</option>
+                    <option>Insurance Question</option>
+                    <option>Vaccination Appointment</option>
+                    <option>Other</option>
+                  </select>
+                </div>
               </div>
 
               {/* Upload Feature */}
@@ -209,7 +219,7 @@ export default function ContactPage() {
                       <FileText className="text-emerald-600" />
                       <span className="text-xs font-black text-emerald-900 truncate max-w-[200px]">{formData.file.name}</span>
                     </div>
-                    <button onClick={() => setFormData(prev => ({...prev, file: null}))} className="text-emerald-600 hover:bg-emerald-100 p-1 rounded-full">
+                    <button type="button" onClick={() => setFormData(prev => ({...prev, file: null}))} className="text-emerald-600 hover:bg-emerald-100 p-1 rounded-full">
                       <X size={18} strokeWidth={3} />
                     </button>
                   </div>
@@ -217,8 +227,9 @@ export default function ContactPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Message Details</label>
+                <label htmlFor="message" className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Message Details</label>
                 <textarea 
+                  id="message"
                   name="message" required
                   onChange={handleInputChange}
                   rows={4} 

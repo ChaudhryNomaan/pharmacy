@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import MedicineSection from '../components/MedicineSection';
 import { 
@@ -21,6 +21,37 @@ export default function Home() {
     const hour = new Date().getHours();
     setIsOpen(hour >= 9 && hour < 20);
   }, []);
+
+  const features = [
+    {
+      icon: <Zap size={28} />,
+      title: "Rapid Refills",
+      desc: "Ready in 15 mins or less",
+      color: "text-amber-500",
+      bg: "bg-amber-50"
+    },
+    {
+      icon: <UserCheck size={28} />,
+      title: "Clinical Consults",
+      desc: "Talk to a pharmacist today",
+      color: "text-teal-600",
+      bg: "bg-teal-50"
+    },
+    {
+      icon: <Truck size={28} />,
+      title: "Home Delivery",
+      desc: "Free for local residents",
+      color: "text-emerald-600",
+      bg: "bg-emerald-50"
+    }
+  ];
+
+  const trustPoints = [
+    { icon: <ShieldCheck className="text-emerald-500" />, text: "HIPAA Compliant Care" },
+    { icon: <Clock className="text-teal-500" />, text: "Automated Reminders" },
+    { icon: <CheckCircle className="text-emerald-500" />, text: "Insurance Direct-Billing" },
+    { icon: <Stethoscope className="text-teal-500" />, text: "Private Consult Room" },
+  ];
 
   return (
     <main className="min-h-screen bg-slate-50">
@@ -75,31 +106,9 @@ export default function Home() {
       {/* 2. Quick Feature Cards */}
       <section className="max-w-7xl mx-auto -mt-20 px-6 relative z-20">
         <div className="grid md:grid-cols-3 gap-6">
-          {[
-            { 
-              icon: <Zap size={28} />, 
-              title: "Rapid Refills", 
-              desc: "Ready in 15 mins or less",
-              color: "text-amber-500",
-              bg: "bg-amber-50"
-            },
-            { 
-              icon: <UserCheck size={28} />, 
-              title: "Clinical Consults", 
-              desc: "Talk to a pharmacist today",
-              color: "text-teal-600",
-              bg: "bg-teal-50"
-            },
-            { 
-              icon: <Truck size={28} />, 
-              title: "Home Delivery", 
-              desc: "Free for local residents",
-              color: "text-emerald-600",
-              bg: "bg-emerald-50"
-            }
-          ].map((item, i) => (
+          {features.map((item) => (
             <div 
-              key={i} 
+              key={item.title}
               className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-emerald-900/5 border border-slate-100 flex flex-col items-start group hover:-translate-y-2 transition-all duration-300"
             >
               <div className={`${item.bg} ${item.color} p-4 rounded-2xl mb-6 transition-transform group-hover:rotate-3`}>
@@ -139,13 +148,8 @@ export default function Home() {
             </p>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {[
-                { icon: <ShieldCheck className="text-emerald-500" />, text: "HIPAA Compliant Care" },
-                { icon: <Clock className="text-teal-500" />, text: "Automated Reminders" },
-                { icon: <CheckCircle className="text-emerald-500" />, text: "Insurance Direct-Billing" },
-                { icon: <Stethoscope className="text-teal-500" />, text: "Private Consult Room" },
-              ].map((feature, i) => (
-                <div key={i} className="flex items-center gap-3 text-slate-800 font-bold text-lg">
+              {trustPoints.map((feature) => (
+                <div key={feature.text} className="flex items-center gap-3 text-slate-800 font-bold text-lg">
                   <div className="bg-slate-50 p-2 rounded-lg">{feature.icon}</div>
                   {feature.text}
                 </div>
