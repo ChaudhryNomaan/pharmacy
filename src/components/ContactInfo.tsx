@@ -28,7 +28,7 @@ export default function ContactInfo() {
       label: "Pharmacy Line",
       value: "(555) 012-3456",
       action: "Call Now",
-      link: "tel:5550123456",
+      link: "tel:03121572571",
       isCopyable: false
     },
     {

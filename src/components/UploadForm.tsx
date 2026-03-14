@@ -59,7 +59,7 @@ export default function UploadForm() {
             </div>
             <h3 className="text-3xl font-black text-slate-900 mb-3 tracking-tighter">Rx Received!</h3>
             <p className="text-slate-500 mb-8 font-medium leading-relaxed">
-              Liza's team has received your prescription. We'll verify your insurance and call you within <span className="text-blue-600 font-bold">15-30 minutes</span>.
+              Our team has received your prescription. We'll verify your insurance and call you within <span className="text-blue-600 font-bold">15-30 minutes</span>.
             </p>
             <button 
               onClick={() => { setSent(false); setFile(null); }}
@@ -154,7 +154,7 @@ export default function UploadForm() {
             <div className="flex items-start gap-4 bg-emerald-50/50 p-5 rounded-2xl border border-emerald-100">
               <ShieldCheck className="text-emerald-600 shrink-0" size={20} />
               <p className="text-[11px] text-emerald-800/70 leading-relaxed font-bold">
-                Liza's Pharmacy uses end-to-end 256-bit encryption. Your data is deleted from our web servers immediately after being processed by our pharmacist.
+                We use end-to-end 256-bit encryption. Your data is deleted from our web servers immediately after being processed by our pharmacist.
               </p>
             </div>
 
@@ -174,7 +174,7 @@ export default function UploadForm() {
                 </>
               ) : (
                 <>
-                  <span>Submit to Liza</span>
+                  <span>Send to Pharmacy</span>
                   <Upload size={20} strokeWidth={3} />
                 </>
               )}

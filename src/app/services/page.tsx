@@ -10,10 +10,11 @@ import {
 
 // --- Sub-component: ServiceCard ---
 const ServiceCard = ({ title, description, icon, link, ctaText }: any) => (
-  <div className="group bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-blue-900/5 hover:-translate-y-2 transition-all duration-500 flex flex-col h-full relative overflow-hidden">
-    <div className="absolute top-0 right-0 w-24 h-24 bg-blue-50/50 rounded-bl-[3rem] -z-10 group-hover:bg-blue-600 transition-colors duration-500"></div>
+  <div className="group bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-emerald-900/5 hover:-translate-y-2 transition-all duration-500 flex flex-col h-full relative overflow-hidden">
+    {/* Decorative background shape changed to Emerald */}
+    <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-50/50 rounded-bl-[3rem] -z-10 group-hover:bg-emerald-600 transition-colors duration-500"></div>
     
-    <div className="bg-blue-50 w-16 h-16 rounded-2xl flex items-center justify-center text-blue-600 mb-8 group-hover:bg-white group-hover:scale-110 transition-all duration-500 shadow-sm">
+    <div className="bg-emerald-50 w-16 h-16 rounded-2xl flex items-center justify-center text-emerald-600 mb-8 group-hover:bg-white group-hover:scale-110 transition-all duration-500 shadow-sm">
       {React.cloneElement(icon, { size: 32, strokeWidth: 2.5 })}
     </div>
     
@@ -26,10 +27,10 @@ const ServiceCard = ({ title, description, icon, link, ctaText }: any) => (
     
     <Link 
       href={link} 
-      className="inline-flex items-center gap-3 text-blue-600 font-black text-sm uppercase tracking-widest group/link"
+      className="inline-flex items-center gap-3 text-emerald-600 font-black text-sm uppercase tracking-widest group/link"
     >
       <span className="group-hover/link:mr-2 transition-all">{ctaText}</span>
-      <div className="p-2 bg-blue-50 rounded-full group-hover/link:bg-blue-600 group-hover/link:text-white transition-all">
+      <div className="p-2 bg-emerald-50 rounded-full group-hover/link:bg-emerald-600 group-hover/link:text-white transition-all">
         <ArrowRight size={16} strokeWidth={3} />
       </div>
     </Link>
@@ -41,7 +42,6 @@ export default function ServicesPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState("");
 
-  // Logic to check pharmacy status and update time
   useEffect(() => {
     const updateStatus = () => {
       const now = new Date();
@@ -51,7 +51,7 @@ export default function ServicesPage() {
     };
 
     updateStatus();
-    const timer = setInterval(updateStatus, 60000); // Update every minute
+    const timer = setInterval(updateStatus, 60000);
     return () => clearInterval(timer);
   }, []);
 
@@ -66,7 +66,7 @@ export default function ServicesPage() {
     },
     { 
       title: "Vaccinations", 
-      desc: "Stay protected with flu shots, COVID boosters, and travel immunizations administered by Liza.",
+      desc: "Stay protected with flu shots, COVID boosters, and travel immunizations administered by our clinical team.",
       icon: <Syringe />,
       link: "/contact",
       cta: "View Schedule",
@@ -100,7 +100,8 @@ export default function ServicesPage() {
       
       {/* Hero Header */}
       <div className="bg-white pt-32 pb-20 border-b border-slate-100 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-blue-50/30 skew-x-12 translate-x-20"></div>
+        {/* Swapped blue-50 for emerald-50 */}
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-emerald-50/30 skew-x-12 translate-x-20"></div>
         
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
@@ -113,16 +114,16 @@ export default function ServicesPage() {
               </div>
               <h1 className="text-6xl md:text-8xl font-black text-slate-900 tracking-tighter leading-[0.9]">
                 Care that <br />
-                <span className="text-blue-600">moves with you.</span>
+                <span className="text-emerald-600">moves with you.</span>
               </h1>
             </div>
 
             <div className="relative w-full md:w-80 group">
-              <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={20} />
+              <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-600 transition-colors" size={20} />
               <input 
                 type="text"
                 placeholder="Search services..."
-                className="w-full pl-14 pr-6 py-5 rounded-[2rem] border border-slate-100 bg-slate-50 focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-bold text-slate-700 shadow-inner"
+                className="w-full pl-14 pr-6 py-5 rounded-[2rem] border border-slate-100 bg-slate-50 focus:bg-white focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all font-bold text-slate-700 shadow-inner"
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
@@ -135,7 +136,7 @@ export default function ServicesPage() {
         {filteredServices.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {filteredServices.map((service, index) => (
-              <div key={index} className="reveal" style={{ animationDelay: `${index * 0.1}s` }}>
+              <div key={index}>
                 <ServiceCard {...service} ctaText={service.cta} description={service.desc} />
               </div>
             ))}
@@ -150,29 +151,29 @@ export default function ServicesPage() {
           </div>
         )}
 
-        {/* Home Delivery CTA */}
-        <div className="mt-20 bg-slate-900 rounded-[3rem] p-10 md:p-16 text-white relative overflow-hidden shadow-2xl reveal">
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-blue-600 skew-x-[25deg] translate-x-32 hidden lg:block"></div>
+        {/* Home Delivery CTA - Swapped blue-600 for emerald-600 */}
+        <div className="mt-20 bg-slate-900 rounded-[3rem] p-10 md:p-16 text-white relative overflow-hidden shadow-2xl">
+          <div className="absolute top-0 right-0 w-1/2 h-full bg-emerald-600 skew-x-[25deg] translate-x-32 hidden lg:block"></div>
           <div className="relative z-10 grid lg:grid-cols-2 items-center gap-12">
             <div>
               <div className="flex items-center gap-4 mb-6">
                  <div className="p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
                     <Truck size={32} />
                  </div>
-                 <span className="text-xs font-black uppercase tracking-[0.3em] text-blue-300">Downtown Exclusive</span>
+                 <span className="text-xs font-black uppercase tracking-[0.3em] text-emerald-300">Downtown Exclusive</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tighter leading-none">
-                Zero Stress.<br /><span className="text-blue-400 italic">Free Delivery.</span>
+                Zero Stress.<br /><span className="text-emerald-400 italic">Free Delivery.</span>
               </h2>
               <p className="text-lg text-slate-300 font-medium max-w-md leading-relaxed">
                 Stay in your pajamas. We deliver all prescriptions within a 5-mile radius of Downtown for free.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 lg:justify-end">
-               <Link href="/contact" className="px-10 py-5 bg-white text-slate-900 rounded-2xl font-black hover:bg-blue-50 transition-all text-center flex items-center justify-center gap-2">
-                  Check Eligibility <ArrowRight size={20} />
+               <Link href="/contact" className="px-10 py-5 bg-white text-slate-900 rounded-2xl font-black hover:bg-emerald-50 transition-all text-center flex items-center justify-center gap-2">
+                 Check Eligibility <ArrowRight size={20} />
                </Link>
-               <a href="tel:5550123456" className="px-10 py-5 bg-blue-600 text-white rounded-2xl font-black hover:bg-blue-700 transition-all text-center flex items-center justify-center gap-2">
+               <a href="tel:5550123456" className="px-10 py-5 bg-emerald-600 text-white rounded-2xl font-black hover:bg-emerald-700 transition-all text-center flex items-center justify-center gap-2">
                   <PhoneCall size={20} /> Call for Info
                </a>
             </div>
@@ -180,14 +181,16 @@ export default function ServicesPage() {
         </div>
 
         {/* Final Trust Markers */}
-        <div className="mt-32 grid md:grid-cols-3 gap-16 reveal">
+        <div className="mt-32 grid md:grid-cols-3 gap-16">
             {[
                 { icon: <Clock />, title: "Ready in 15", text: "No more pharmacy lines. We guarantee pickup within 15 minutes of your arrival." },
                 { icon: <ShieldCheck />, title: "All Insurances", text: "We accept 99% of major insurance plans and help coordinate prior auths." },
                 { icon: <BadgeCheck />, title: "Clinical Support", text: "Direct lines to your doctors for fast refill approvals and dosage adjustments." }
             ].map((item, i) => (
                 <div key={i} className="group text-left">
-                    <div className="text-blue-600 mb-6 group-hover:scale-110 group-hover:rotate-6 transition-transform inline-block">{React.cloneElement(item.icon, { size: 40, strokeWidth: 1.5 })}</div>
+                    <div className="text-emerald-600 mb-6 group-hover:scale-110 group-hover:rotate-6 transition-transform inline-block">
+                      {React.cloneElement(item.icon, { size: 40, strokeWidth: 1.5 })}
+                    </div>
                     <h4 className="text-2xl font-black text-slate-900 mb-4 tracking-tighter uppercase text-sm">{item.title}</h4>
                     <p className="text-slate-500 font-medium leading-relaxed">{item.text}</p>
                 </div>
